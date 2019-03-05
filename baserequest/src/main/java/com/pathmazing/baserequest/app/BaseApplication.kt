@@ -3,7 +3,7 @@ package com.pathmazing.hr.app
 import android.annotation.SuppressLint
 import android.app.Application
 
-class BaseApplication : Application(){
+open class BaseApplication : Application(){
 
     override fun onCreate() {
         super.onCreate()
