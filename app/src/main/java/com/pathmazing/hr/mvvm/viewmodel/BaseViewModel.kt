@@ -9,7 +9,6 @@ import io.reactivex.disposables.CompositeDisposable
 open class BaseViewModel<Navigator : BaseNavigator>{
 
     protected val compositeDisposable = CompositeDisposable()
-    protected val api = RestClient.getApiService<ApiService>(BuildConfig.BASE_URL)
 
     var navigator: Navigator? = null
 

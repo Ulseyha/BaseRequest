@@ -14,28 +14,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
-    signingConfigs {
-        release {
-            storeFile file("keystore.jks")
-            storePassword "argent2015"
-            keyAlias "androidkey"
-            keyPassword "argent2015"
-        }
-    }
-
-    buildTypes {
-        release {
-            buildConfigField 'String', 'BASE_URL', '"http://96.9.77.130:8081/"' //production
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.release
-        }
-        debug {
-            buildConfigField 'String', 'BASE_URL', '"http://96.9.77.130:8081/"' //dev
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
 }
 
 dependencies {
