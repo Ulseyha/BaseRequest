@@ -13,6 +13,14 @@ android {
 
     }
 
+    allprojects {
+        repositories {
+            maven {
+                url "https://jitpack.io"
+            }
+        }
+    }
+
     buildTypes {
         release {
             buildConfigField 'String', 'BASE_URL', '"http://96.9.77.130:8081/"' //production
