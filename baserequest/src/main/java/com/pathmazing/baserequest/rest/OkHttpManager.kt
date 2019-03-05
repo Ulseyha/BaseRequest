@@ -1,42 +1,46 @@
 package com.pathmazing.baserequest.rest
 
+import android.content.Context
 import com.pathmazing.hr.app.BaseApplication
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object OkHttpManager{
+object OkHttpManager {
 
     private var sInstance: OkHttpClient? = null
 
-    val instance: OkHttpClient get() {
+    fun getInstance(context: Context,hashMap: HashMap<String, String>) : OkHttpClient {
 
         if (sInstance == null) {
 
-                val connectionPool = ConnectionPool(100, 18000, TimeUnit.MILLISECONDS)
-                val logging = HttpLoggingInterceptor()
-                logging.level = HttpLoggingInterceptor.Level.BODY
+            val connectionPool = ConnectionPool(100, 18000, TimeUnit.MILLISECONDS)
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
 
-                sInstance = OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS)
-                        .writeTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
-                        .retryOnConnectionFailure(true)
-                        .connectionPool(connectionPool)
-                        .cache(Cache(BaseApplication.getInstance()?.baseContext!!.cacheDir, (1024 * 1024).toLong())) // 10 MB
-                        .addInterceptor(logging)
-                        .addInterceptor(OkHttpManager.RewriteRequestInterceptor())
-                        .addNetworkInterceptor(OkHttpManager.RewriteResponseCacheControlInterceptor())
-                        .addInterceptor { chain ->
-                            val request = addHeaderParam(chain)
-                            chain.proceed(request)
-                        }
-                        /*.authenticator(AuthenticationToken())*/
-                        .build()
-            }
-            return this.sInstance!!
+            sInstance = OkHttpClient.Builder()
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
+                    .connectionPool(connectionPool)
+                    .cache(Cache(context.cacheDir, (1024 * 1024).toLong())) // 10 MB
+                    .addInterceptor(logging)
+                    .addInterceptor(OkHttpManager.RewriteRequestInterceptor())
+                    .addNetworkInterceptor(OkHttpManager.RewriteResponseCacheControlInterceptor())
+                    .addInterceptor { chain ->
+                        val request = addHeaderParam(hashMap,chain)
+                        chain.proceed(request)
+                    }
+                    /*.authenticator(AuthenticationToken())*/
+                    .build()
         }
+        return this.sInstance!!
+
+
+    }
+
 
 //    val accessKey: String?
 //        get() {
@@ -71,21 +75,31 @@ object OkHttpManager{
         }
     }
 
-    private fun addHeaderParam(chain: Interceptor.Chain): Request {
+    private fun addHeaderParam(hashMap: HashMap<String, String>, chain: Interceptor.Chain): Request {
 
-        val request: Request
-        var accessToken = ""
+        val headers = chain.request().newBuilder()
 
-        try {
-            accessToken = "Bearer " + "preferences.getAccessToken()"
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        } finally {
-            request = chain.request().newBuilder()
-                    .addHeader("Access-Token", accessToken)
-                    .build()
+        for (header in hashMap) {
+            if (header.value.isNotEmpty())
+                headers.addHeader(header.key, header.value)
         }
-        return request
+
+        return headers.build()
     }
+
+//    private fun addHeaderParam(hashMap: HashMap<String, String>, chain: Interceptor.Chain): Request {
+//
+//        val request: Request
+//        var accessToken = ""
+//
+//        try {
+//            accessToken = "Bearer " + "preferences.getAccessToken()"
+//        } catch (e: NullPointerException) {
+//            e.printStackTrace()
+//        } finally {
+//            request = chain.request().newBuilder().addHeader("acces",accessToken).build()
+//        }
+//        return request
+//    }
 
 }

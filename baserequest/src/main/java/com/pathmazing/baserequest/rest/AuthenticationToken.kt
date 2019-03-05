@@ -10,22 +10,30 @@ import java.io.IOException
 
 class AuthenticationToken : Authenticator {
 
-    @Throws(IOException::class)
-    override fun authenticate(route: Route, response: Response): Request? {
+    override fun authenticate(route: Route?, response: Response?): Request? {
 
-        return if (response.request().header("auth") != null) {
-
-            val activity = BaseApplication.getInstance() as AppCompatActivity
-            activity.runOnUiThread(object : Runnable {
-                override fun run() {
-//                                LoginActivity.expireAccessToken((AppCompatActivity) App.getContext());
-                }
-            })
-            null
-        } else {
-            response.request().newBuilder()
+       return response?.request()!!.newBuilder()
                     .header("auth", "")
                     .build()
-        }
+
     }
+
+//    @Throws(IOException::class)
+//    override fun authenticate(route: Route, response: Response): Request? {
+//
+//        return if (response.request().header("auth") != null) {
+//
+//            val activity = BaseApplication.getInstance() as AppCompatActivity
+//            activity.runOnUiThread(object : Runnable {
+//                override fun run() {
+////                                LoginActivity.expireAccessToken((AppCompatActivity) App.getContext());
+//                }
+//            })
+//            null
+//        } else {
+//            response.request().newBuilder()
+//                    .header("auth", "")
+//                    .build()
+//        }
+//    }
 }
