@@ -1,8 +1,8 @@
-package com.pathmazing.baserequest.rest.disposable
+package com.pathmazing.baserequest.rest
 
 import com.google.gson.Gson
-import com.pathmazing.baserequest.mvvm.model.ErrorModel
-import com.pathmazing.baserequest.mvvm.navigator.BaseNavigator
+import com.pathmazing.baserequest.mvvm.ErrorModel
+import com.pathmazing.baserequest.mvvm.BaseNavigator
 import io.reactivex.observers.DisposableSingleObserver
 import retrofit2.HttpException
 import java.io.IOException
@@ -21,7 +21,7 @@ abstract class HRDisposableSingleObserver<T>(private var baseNavigator: BaseNavi
             }
             try {
                 val responseBody = throwable.response().errorBody()?.string()
-                val errorModel = Gson().fromJson<ErrorModel>(responseBody,ErrorModel::class.java)
+                val errorModel = Gson().fromJson<ErrorModel>(responseBody, ErrorModel::class.java)
                 onServerError(errorModel)
             } catch (e: Exception) {
                 onOtherError(throwable)
@@ -32,7 +32,7 @@ abstract class HRDisposableSingleObserver<T>(private var baseNavigator: BaseNavi
     }
 
     open fun onUnAuthorization() {
-//        baseNavigator?.onUnAuthorization()
+        baseNavigator?.onUnAuthorization()
     }
 
     open fun onOtherError(throwable: Throwable) {

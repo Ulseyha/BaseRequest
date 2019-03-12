@@ -1,6 +1,5 @@
-package com.pathmazing.baserequest.mvvm.viewmodel
+package com.pathmazing.baserequest.mvvm
 
-import com.pathmazing.baserequest.mvvm.navigator.BaseNavigator
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel<Navigator : BaseNavigator>{

@@ -1,13 +1,12 @@
-package com.pathmazing.baserequest.mvvm.navigator
+package com.pathmazing.baserequest.mvvm
 
-import com.pathmazing.baserequest.mvvm.model.ErrorModel
+import com.pathmazing.baserequest.mvvm.ErrorModel
 
 interface BaseNavigator{
-
     fun onShowProgress()
     fun onDismissProgress()
-    fun onShowMessage(message: String)
     fun onFailure(throwable: Throwable)
     fun onError(errorModel: ErrorModel)
     fun onConnectionError()
+    fun onUnAuthorization()
 }

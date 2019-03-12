@@ -1,57 +1,51 @@
 package com.pathmazing.baserequest.rest
 
 import android.content.Context
-import com.pathmazing.hr.app.BaseApplication
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object OkHttpManager {
+class OkHttpManager(private val context: Context,
+                    val hashMap: HashMap<String, String> = HashMap(),
+                    val catchSize: Long,
+                    var authenticator: Authenticator? = null) {
 
-    private var sInstance: OkHttpClient? = null
+    data class Builder(var context: Context,
+                       var hashMap: HashMap<String, String> = HashMap(),
+                       var catchSize: Long = (1024 * 1024).toLong(),
+                       var authenticator: Authenticator? = null) {
 
-    fun getInstance(context: Context,hashMap: HashMap<String, String>) : OkHttpClient {
-
-        if (sInstance == null) {
-
-            val connectionPool = ConnectionPool(100, 18000, TimeUnit.MILLISECONDS)
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-
-            sInstance = OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .writeTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
-                    .connectionPool(connectionPool)
-                    .cache(Cache(context.cacheDir, (1024 * 1024).toLong())) // 10 MB
-                    .addInterceptor(logging)
-                    .addInterceptor(OkHttpManager.RewriteRequestInterceptor())
-                    .addNetworkInterceptor(OkHttpManager.RewriteResponseCacheControlInterceptor())
-                    .addInterceptor { chain ->
-                        val request = addHeaderParam(hashMap,chain)
-                        chain.proceed(request)
-                    }
-                    /*.authenticator(AuthenticationToken())*/
-                    .build()
-        }
-        return this.sInstance!!
-
-
+        fun header(header: HashMap<String, String>) = apply { this.hashMap = header }
+        fun catchSize(catchSize: Long) = apply { this.catchSize = catchSize }
+        fun authenticator(authenticator: Authenticator?) = apply { this.authenticator = authenticator!! }
+        fun init() = OkHttpManager(context, hashMap, catchSize, authenticator)
     }
 
+    fun build(): OkHttpClient {
 
-//    val accessKey: String?
-//        get() {
-//            val context = BaseApplication.applicationContext
-//            val loginRespond = UserSharePreference.getInstance(context).getUserLogin(context)
-//            if (loginRespond != null) {
-//                Log.d("AccessKey", "getAccessKey: " + loginRespond.accessToken!!)
-//                return loginRespond.accessToken
-//            }
-//            return Constants.USER_ACCESS_TOKEN_TEST
-//        }
+        val connectionPool = ConnectionPool(100, 18000, TimeUnit.MILLISECONDS)
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val builder = OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .connectionPool(connectionPool)
+                .cache(Cache(context.cacheDir, catchSize)) // 10 MB
+                .addInterceptor(logging)
+                .addInterceptor(RewriteRequestInterceptor())
+                .addNetworkInterceptor(RewriteResponseCacheControlInterceptor())
+                .addInterceptor { chain ->
+                    val request = addHeaderParam(hashMap, chain)
+                    chain.proceed(request)
+                }
+
+        if (authenticator != null) builder.authenticator(authenticator!!)
+        return builder.build()
+    }
 
     private class RewriteRequestInterceptor : Interceptor {
 
@@ -83,23 +77,6 @@ object OkHttpManager {
             if (header.value.isNotEmpty())
                 headers.addHeader(header.key, header.value)
         }
-
         return headers.build()
     }
-
-//    private fun addHeaderParam(hashMap: HashMap<String, String>, chain: Interceptor.Chain): Request {
-//
-//        val request: Request
-//        var accessToken = ""
-//
-//        try {
-//            accessToken = "Bearer " + "preferences.getAccessToken()"
-//        } catch (e: NullPointerException) {
-//            e.printStackTrace()
-//        } finally {
-//            request = chain.request().newBuilder().addHeader("acces",accessToken).build()
-//        }
-//        return request
-//    }
-
 }

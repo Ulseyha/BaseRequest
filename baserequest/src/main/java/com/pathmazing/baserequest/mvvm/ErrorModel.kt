@@ -1,4 +1,4 @@
-package com.pathmazing.baserequest.mvvm.model
+package com.pathmazing.baserequest.mvvm
 
 import java.io.Serializable
 

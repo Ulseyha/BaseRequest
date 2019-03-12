@@ -1,7 +1,6 @@
 package com.pathmazing.baserequest.rest
 
 import android.support.v7.app.AppCompatActivity
-import com.pathmazing.hr.app.BaseApplication
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response

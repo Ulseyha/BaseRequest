@@ -2,15 +2,15 @@ package com.pathmazing.hr.ui.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.pathmazing.baserequest.mvvm.model.ErrorModel
+import com.pathmazing.baserequest.mvvm.navigator.BaseNavigator
+import com.pathmazing.baserequest.mvvm.viewmodel.BaseViewModel
 import com.pathmazing.hr.R
 import com.pathmazing.hr.mvvm.model.LoginResponse
 import com.pathmazing.hr.mvvm.navigator.LoginNavigator
-import com.pathmazing.hr.mvvm.viewmodel.LoginViewModel
-import com.pathmazing.hr.rest.RestClient
-import com.pathmazing.hr.rest.service.ApiService
 import kotlinx.android.synthetic.main.activity_main.*
 
-class CoreActivity : AppCompatActivity(), LoginNavigator {
+class BaseActivity : AppCompatActivity(), LoginNavigator {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class CoreActivity : AppCompatActivity(), LoginNavigator {
         setContentView(R.layout.activity_main)
 
         button_login.setOnClickListener {
-            LoginViewModel(this).onLogin()
+//            LoginViewModel(this).onLogin()
 
         }
     }
