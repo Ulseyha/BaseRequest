@@ -2,12 +2,11 @@ package com.pathmazing.hr.ui.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.pathmazing.baserequest.mvvm.model.ErrorModel
-import com.pathmazing.baserequest.mvvm.navigator.BaseNavigator
-import com.pathmazing.baserequest.mvvm.viewmodel.BaseViewModel
+import com.pathmazing.baserequest.mvvm.ErrorModel
 import com.pathmazing.hr.R
 import com.pathmazing.hr.mvvm.model.LoginResponse
 import com.pathmazing.hr.mvvm.navigator.LoginNavigator
+import com.pathmazing.hr.mvvm.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class BaseActivity : AppCompatActivity(), LoginNavigator {
@@ -17,37 +16,29 @@ class BaseActivity : AppCompatActivity(), LoginNavigator {
         setContentView(R.layout.activity_main)
 
         button_login.setOnClickListener {
-//            LoginViewModel(this).onLogin()
+            LoginViewModel(this,this).onLogin()
         }
     }
 
-    override fun onShowProgress() {
-
-    }
-
     override fun onLoginSucceed(loginResponse: LoginResponse) {
-
-        val d = BaseViewModel<BaseNavigator>()
-
-    }
-
-    override fun onDismissProgress() {
-
-    }
-
-    override fun onShowMessage(message: String) {
-
-    }
-
-    override fun onFailure(throwable: Throwable) {
-
-    }
-
-    override fun onError(errorModel: ErrorModel) {
-
     }
 
     override fun onConnectionError() {
-
     }
+
+    override fun onDismissProgress() {
+    }
+
+    override fun onError(errorModel: ErrorModel) {
+    }
+
+    override fun onFailure(throwable: Throwable) {
+    }
+
+    override fun onShowProgress() {
+    }
+
+    override fun onUnAuthorization() {
+    }
+
 }

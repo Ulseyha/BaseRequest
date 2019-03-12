@@ -7,19 +7,19 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class OkHttpManager(private val context: Context,
-                    val hashMap: HashMap<String, String> = HashMap(),
-                    val catchSize: Long,
-                    var authenticator: Authenticator? = null) {
+                    private val hashMap: HashMap<String, String> = HashMap(),
+                    private val catchSize: Long
+                    /*var authenticator: Authenticator? = null*/) {
 
-    data class Builder(var context: Context,
-                       var hashMap: HashMap<String, String> = HashMap(),
-                       var catchSize: Long = (1024 * 1024).toLong(),
-                       var authenticator: Authenticator? = null) {
+    data class Builder(private var context: Context,
+                       private var hashMap: HashMap<String, String> = HashMap(),
+                       private var catchSize: Long = (1024 * 1024).toLong(),
+                       private var authenticator: Authenticator? = null) {
 
         fun header(header: HashMap<String, String>) = apply { this.hashMap = header }
         fun catchSize(catchSize: Long) = apply { this.catchSize = catchSize }
-        fun authenticator(authenticator: Authenticator?) = apply { this.authenticator = authenticator!! }
-        fun init() = OkHttpManager(context, hashMap, catchSize, authenticator)
+//        fun authenticator(authenticator: Authenticator?) = apply { this.authenticator = authenticator!! }
+        fun init() = OkHttpManager(context, hashMap, catchSize/*, authenticator*/)
     }
 
     fun build(): OkHttpClient {
@@ -43,7 +43,7 @@ class OkHttpManager(private val context: Context,
                     chain.proceed(request)
                 }
 
-        if (authenticator != null) builder.authenticator(authenticator!!)
+//        if (authenticator != null) builder.authenticator(authenticator!!)
         return builder.build()
     }
 

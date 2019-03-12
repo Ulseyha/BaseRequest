@@ -14,6 +14,36 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+//            storeFile file("keystore.jks")
+//            storePassword "argent2015"
+//            keyAlias "androidkey"
+//            keyPassword "argent2015"
+        }
+    }
+
+    buildTypes {
+        release {
+//        resValue "string", "app_name", "daiku"
+//            buildConfigField 'String', 'CLIENT_ID', '"eyJhbGciOiJIUzI1NiJ9.c2VhdGVsLWFwaS1kZXY.NsFhP0C7pqeONbcGAf42lQLLe6AIgy1QdOUOrg0uqcI"'
+            buildConfigField 'String', 'BASE_URL', '"http://96.9.77.130:8081/"' //production
+//        buildConfigField 'String', 'CLIENT_SECRET', '"MjExNzM0NWNiNTA3NDZmNzg4NmE0NTNlYjYyMWNkODk="'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+//        resValue "string", "app_name", "daiku dev"
+//            buildConfigField 'String', 'CLIENT_ID', '"eyJhbGciOiJIUzI1NiJ9.ZGFpa3UtYXBpLWRldg.Q3OhTw07V8M49NiZ0vJvPUKbvbRRV5eqefMc88fHXUw"'
+            buildConfigField 'String', 'BASE_URL', '"http://96.9.77.130:8081/"' //dev
+//        buildConfigField 'String', 'CLIENT_SECRET', '"MjExNzM0NWNiNTA3NDZmNzg4NmE0NTNlYjYyMWNkODk="'
+            debuggable true
+            buildConfigField 'Boolean', 'enableCrashlytics', 'false'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +60,5 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
-    implementation 'com.github.Ulseyha:BaseRequest:0.0.2'
-
+    implementation 'com.github.Ulseyha:BaseRequest:0.0.3'
 }
