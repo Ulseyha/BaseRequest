@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RestClient(val context: Context,
                  val baseUrl: String? = "",
                  val hashMap: HashMap<String, String>? = HashMap(),
-                 val catchSize: Long = (1024 * 1024).toLong(),
+                 val catchSize: Long = 0,
                  val authenticator: Authenticator? = null) {
 
 //    inline fun <reified T> getApiService(context: Context, baseUrl: String, hashMap: HashMap<String, String>): T {
@@ -26,10 +26,10 @@ class RestClient(val context: Context,
 //    }
 
     data class Builder(var context: Context,
-                       var baseUrl: String,
-                       var hashMap: HashMap<String, String>,
-                       var catchSize: Long,
-                       var authenticator: Authenticator) {
+                       var baseUrl: String = "",
+                       var hashMap: HashMap<String, String> = HashMap(),
+                       var catchSize: Long  = (1024 * 1024).toLong(),
+                       var authenticator: Authenticator? = null) {
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
         fun header(header: HashMap<String, String>) = apply { this.hashMap = header }
