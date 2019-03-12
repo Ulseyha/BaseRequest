@@ -2,16 +2,16 @@ package com.pathmazing.baserequest.rest
 
 import com.google.gson.Gson
 import com.pathmazing.baserequest.mvvm.ErrorModel
-import com.pathmazing.baserequest.mvvm.BaseNavigator
+import com.pathmazing.baserequest.mvvm.CoreNavigator
 import io.reactivex.observers.DisposableSingleObserver
 import retrofit2.HttpException
 import java.io.IOException
 
-abstract class HRDisposableSingleObserver<T>(private var baseNavigator: BaseNavigator?) : DisposableSingleObserver<T>() {
+abstract class CoreDisposableSingleObserver<T>(private var coreNavigator: CoreNavigator?) : DisposableSingleObserver<T>() {
 
     override fun onError(throwable: Throwable) {
         if (throwable is IOException) {
-            baseNavigator?.onConnectionError()
+            coreNavigator?.onConnectionError()
             return
         }
         if (throwable is HttpException) {
@@ -32,15 +32,15 @@ abstract class HRDisposableSingleObserver<T>(private var baseNavigator: BaseNavi
     }
 
     open fun onUnAuthorization() {
-        baseNavigator?.onUnAuthorization()
+        coreNavigator?.onUnAuthorization()
     }
 
     open fun onOtherError(throwable: Throwable) {
-        baseNavigator?.onFailure(throwable)
+        coreNavigator?.onFailure(throwable)
     }
 
     open fun onServerError(errorModel: ErrorModel) {
-        baseNavigator?.onError(errorModel)
+        coreNavigator?.onError(errorModel)
     }
 
 }

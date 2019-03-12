@@ -2,7 +2,7 @@ package com.pathmazing.baserequest.mvvm
 
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseViewModel<Navigator : BaseNavigator>{
+open class CoreViewModel<Navigator : CoreNavigator>{
 
     protected val compositeDisposable = CompositeDisposable()
 

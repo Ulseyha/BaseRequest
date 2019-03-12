@@ -2,7 +2,7 @@ package com.pathmazing.baserequest.mvvm
 
 import com.pathmazing.baserequest.mvvm.ErrorModel
 
-interface BaseNavigator{
+interface CoreNavigator{
     fun onShowProgress()
     fun onDismissProgress()
     fun onFailure(throwable: Throwable)

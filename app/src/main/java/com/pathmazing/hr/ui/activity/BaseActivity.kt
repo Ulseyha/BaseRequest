@@ -12,14 +12,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class BaseActivity : AppCompatActivity(), LoginNavigator {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         button_login.setOnClickListener {
 //            LoginViewModel(this).onLogin()
-
         }
     }
 
