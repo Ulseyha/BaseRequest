@@ -33,7 +33,6 @@ class RestClient(private val context: Context? = null,
     inline fun <reified T> build(): T? {
 
         try {
-
             val okHttpClient = OkHttpManager.
                     Builder(getContext()!!).
                     catchSize(getCatchSize()).
@@ -76,5 +75,4 @@ class RestClient(private val context: Context? = null,
     fun getHeader(): HashMap<String, String>? {
         return this.hashMap
     }
-
 }

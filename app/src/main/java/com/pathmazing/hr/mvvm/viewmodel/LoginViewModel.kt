@@ -19,8 +19,7 @@ class LoginViewModel(context: Context,private var mNavigator: LoginNavigator) : 
     private val api = RestClient.Builder(context).
             baseUrl(BuildConfig.BASE_URL).
             header(HashMap()).
-            catchSize((1024 * 1024).toLong()).
-//            authenticato(AuthenticationToken()).
+            connectionTimeout(60).
             init().
             build<RestApiService>()
 
@@ -30,19 +29,18 @@ class LoginViewModel(context: Context,private var mNavigator: LoginNavigator) : 
         loginRequest.username = "richard.houn"
         loginRequest.password = "123456"
 
-        api.getUserLogin(loginRequest)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
+        api?.getUserLogin(loginRequest)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe {
                     mNavigator.onShowProgress()
-                }.doFinally {
+                }?.doFinally {
                     mNavigator.onDismissProgress()
                 }
-                .subscribeWith(object : CoreDisposableSingleObserver<LoginResponse>(navigator) {
+                ?.subscribeWith(object : CoreDisposableSingleObserver<LoginResponse>(navigator) {
                     override fun onSuccess(dealer: LoginResponse) {
                         mNavigator.onLoginSucceed(dealer)
                     }
-
-                }).addTo(compositeDisposable)
+                })?.addTo(compositeDisposable)
     }
 }
