@@ -8,11 +8,11 @@ import com.pathmazing.hr.BuildConfig
 import com.pathmazing.hr.mvvm.model.LoginRequest
 import com.pathmazing.hr.mvvm.model.LoginResponse
 import com.pathmazing.hr.mvvm.navigator.LoginNavigator
-import com.pathmazing.hr.rest.AuthenticationToken
 import com.pathmazing.hr.rest.RestApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class LoginViewModel(context: Context,private var mNavigator: LoginNavigator) : CoreViewModel<LoginNavigator>() {
 
@@ -20,7 +20,7 @@ class LoginViewModel(context: Context,private var mNavigator: LoginNavigator) : 
             baseUrl(BuildConfig.BASE_URL).
             header(HashMap()).
             catchSize((1024 * 1024).toLong()).
-            authenticato(AuthenticationToken()).
+//            authenticato(AuthenticationToken()).
             init().
             build<RestApiService>()
 

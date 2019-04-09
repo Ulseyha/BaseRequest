@@ -8,33 +8,35 @@ import java.util.concurrent.TimeUnit
 
 class OkHttpManager(private val context: Context,
                     private val hashMap: HashMap<String, String> = HashMap(),
-                    private val catchSize: Long
-                    /*var authenticator: Authenticator? = null*/) {
+                    private val catchSize: Long,
+                    private var connectionTimeout : Long = 0) {
+
 
     data class Builder(private var context: Context,
                        private var hashMap: HashMap<String, String> = HashMap(),
-                       private var catchSize: Long = (1024 * 1024).toLong(),
-                       private var authenticator: Authenticator? = null) {
+                       private var catchSize: Long = 0,
+                       private var connectionTimeout : Long = 0) {
 
         fun header(header: HashMap<String, String>) = apply { this.hashMap = header }
         fun catchSize(catchSize: Long) = apply { this.catchSize = catchSize }
-//        fun authenticator(authenticator: Authenticator?) = apply { this.authenticator = authenticator!! }
-        fun init() = OkHttpManager(context, hashMap, catchSize/*, authenticator*/)
+        fun connectionTimeout(connectionTimeout: Long) = apply { this.connectionTimeout = connectionTimeout }
+        fun init() = OkHttpManager(context, hashMap, catchSize)
     }
 
     fun build(): OkHttpClient {
 
         val connectionPool = ConnectionPool(100, 18000, TimeUnit.MILLISECONDS)
         val logging = HttpLoggingInterceptor()
+
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val builder = OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(connectionTimeout, TimeUnit.SECONDS)
+                .writeTimeout(connectionTimeout, TimeUnit.SECONDS)
+                .connectTimeout(connectionTimeout, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .connectionPool(connectionPool)
-                .cache(Cache(context.cacheDir, catchSize)) // 10 MB
+                .cache(Cache(context.cacheDir, catchSize))
                 .addInterceptor(logging)
                 .addInterceptor(RewriteRequestInterceptor())
                 .addNetworkInterceptor(RewriteResponseCacheControlInterceptor())
@@ -43,7 +45,6 @@ class OkHttpManager(private val context: Context,
                     chain.proceed(request)
                 }
 
-//        if (authenticator != null) builder.authenticator(authenticator!!)
         return builder.build()
     }
 
