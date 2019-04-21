@@ -13,7 +13,7 @@ class RestClient(private val context: Context? = null,
                  private val connectionTimeout: Long = 0) {
 
     companion object {
-        private const val CATCH_SIZE = 1024L * 5
+        private const val CATCH_SIZE = 1024L
         private const val CONNECTION_TIME_OUT = 60L
     }
 
