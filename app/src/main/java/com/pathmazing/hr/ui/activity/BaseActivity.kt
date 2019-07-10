@@ -15,9 +15,9 @@ class BaseActivity : AppCompatActivity(), LoginNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button_login.setOnClickListener {
-            LoginViewModel(this,this).onLogin()
-        }
+//        button_login.setOnClickListener {
+//            LoginViewModel(this,this).onLogin()
+//        }
     }
 
     override fun onLoginSucceed(loginResponse: LoginResponse) {

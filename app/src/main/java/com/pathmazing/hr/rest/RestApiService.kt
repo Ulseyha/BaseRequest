@@ -2,16 +2,13 @@ package com.pathmazing.hr.rest
 
 import com.pathmazing.hr.mvvm.model.LoginRequest
 import com.pathmazing.hr.mvvm.model.LoginResponse
-import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.POST
 
 interface RestApiService {
 
-    @POST("auth/login")
-    fun getUserLogin(
-            @Body loginRequest: LoginRequest
-    ): Single<LoginResponse>
+//    @POST("auth/login")
+//    fun getUserLogin(
+//            @Body loginRequest: LoginRequest
+//    ): Single<LoginResponse>
 //
 //    @GET("{clientKey}/report/monthly")
 //    fun getMonthlyReport(

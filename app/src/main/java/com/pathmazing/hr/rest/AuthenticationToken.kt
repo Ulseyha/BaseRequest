@@ -1,21 +1,18 @@
 package com.pathmazing.hr.rest
 
 import android.support.v7.app.AppCompatActivity
-import okhttp3.Authenticator
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
 import java.io.IOException
+import java.net.Authenticator
 
-class AuthenticationToken : Authenticator {
-
-    override fun authenticate(route: Route?, response: Response?): Request? {
-
-       return response?.request()!!.newBuilder()
-                    .header("auth", "")
-                    .build()
-
-    }
+//class AuthenticationToken : Authenticator {
+//
+//    override fun authenticate(route: Route?, response: Response?): Request? {
+//
+//       return response?.request()!!.newBuilder()
+//                    .header("auth", "")
+//                    .build()
+//
+//    }
 
 //    @Throws(IOException::class)
 //    override fun authenticate(route: Route, response: Response): Request? {
@@ -35,4 +32,4 @@ class AuthenticationToken : Authenticator {
 //                    .build()
 //        }
 //    }
-}
+//}
