@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.NullPointerException
+import java.util.*
 
 class RestClient(private val context: Context? = null,
                  private val baseUrl: String? = "",

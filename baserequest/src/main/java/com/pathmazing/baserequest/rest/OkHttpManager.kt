@@ -4,6 +4,7 @@ import android.content.Context
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class OkHttpManager(private val context: Context,
@@ -51,7 +52,6 @@ class OkHttpManager(private val context: Context,
     private class RewriteRequestInterceptor : Interceptor {
 
         @Throws(IOException::class)
-
         override fun intercept(chain: Interceptor.Chain): Response {
             val maxStale = 60 * 60 * 24 * 5
             val request = chain.request().newBuilder().header("Cache-Control", "max-stale=$maxStale").build()
@@ -62,7 +62,6 @@ class OkHttpManager(private val context: Context,
     private class RewriteResponseCacheControlInterceptor : Interceptor {
 
         @Throws(IOException::class)
-
         override fun intercept(chain: Interceptor.Chain): Response {
             val maxStale = 60 * 60 * 24 * 5
             val originalResponse = chain.proceed(chain.request())
