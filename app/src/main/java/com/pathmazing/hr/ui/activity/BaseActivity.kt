@@ -6,8 +6,6 @@ import com.pathmazing.baserequest.mvvm.ErrorModel
 import com.pathmazing.hr.R
 import com.pathmazing.hr.mvvm.model.LoginResponse
 import com.pathmazing.hr.mvvm.navigator.LoginNavigator
-import com.pathmazing.hr.mvvm.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class BaseActivity : AppCompatActivity(), LoginNavigator {
 
