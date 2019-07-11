@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/BaseRequest.iml" filepath="$PROJECT_DIR$/.idea/BaseRequest.iml" />
       <module fileurl="file://$PROJECT_DIR$/BaseRequest.iml" filepath="$PROJECT_DIR$/BaseRequest.iml" />
       <module fileurl="file://$PROJECT_DIR$/HR.iml" filepath="$PROJECT_DIR$/HR.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baserequest/baserequest.iml" filepath="$PROJECT_DIR$/baserequest/baserequest.iml" />
     </modules>
   </component>
